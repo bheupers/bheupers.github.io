@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <base href="http://map.data.amsterdam.nl">
+  <base href="https://map.data.amsterdam.nl">
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Mileuzones demo</title>
@@ -69,7 +69,7 @@
           if( typeof value !== "undefined" && value !== curLayerValue) {
               curLayerValue = value
               const endpoint = {
-                  url: 'https://acc.map.data.amsterdam.nl/maps/milieuzones?id=' + value,
+                  url: 'https://map.data.amsterdam.nl/maps/milieuzones?id=' + value,
                   layerName: ['milieuzones'],
                   styleName: ''
               };
@@ -84,7 +84,7 @@
               oplaadpalenLayer = undefined
           } else if (checked === true) {
               const endpoint = {
-                  url: 'https://acc.map.data.amsterdam.nl/maps/oplaadpalen',
+                  url: 'https://map.data.amsterdam.nl/maps/oplaadpalen',
                   layerName: ['oplaadpalen'],
                   styleName: ''
               };
@@ -99,7 +99,7 @@
               hoofdroutesLayer = undefined
           } else if (checked === true) {
               const endpoint = {
-                  url: 'https://acc.map.data.amsterdam.nl/maps/hoofdroutes',
+                  url: 'https://map.data.amsterdam.nl/maps/hoofdroutes',
                   layerName: ['hoofdroutes'],
                   styleName: ''
               };
