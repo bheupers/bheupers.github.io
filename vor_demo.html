@@ -3,7 +3,7 @@
   <base href="https://map.data.amsterdam.nl">
   <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Mileuzones demo</title>
+    <title>VOR demo</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
     <link rel="stylesheet" href="nlmaps/dist/assets/css/nlmaps.css"/>
     <link rel="stylesheet" href="dist/css/ams-map.css"/>
@@ -12,42 +12,71 @@
     </style>
   </head>
   <body>
-    <div id="mapdiv"></div>
-    <div>
-    </div>
     <div id="controlpanel">
-      <table width="100%" cellpadding="10"><tr><th>Milieuzones</th><th>Oplaadpalen</th><th>Hoofdroutes</th></tr>
+      <table width="100%" cellpadding="10"><tr><th>Milieuzones</th><th>Oplaadpalen</th><th>Hoofdroutes</th><th>Parkeervakken</th><th>Reistijden auto</th></tr>
         <tr>
           <td align="center">
-      <input type="radio" name="zone" value="63363" id="00000" onclick="zoneClick(undefined)">Leeg<br>
-      <input type="radio" name="zone" value="63363" id="63363" onclick="zoneClick(this.value)">Bestel<br>
-      <input type="radio" name="zone" value="63362" id="63362" onclick="zoneClick(this.value)">Vracht<br>
-      <input type="radio" name="zone" value="63361" id="63361" onclick="zoneClick(this.value)">Touringcar<br>
-      <input type="radio" name="zone" value="63360" id="63360" onclick="zoneClick(this.value)">Taxi<br>
-      <input type="radio" name="zone" value="63324" id="63324" onclick="zoneClick(this.value)">Brom-en snorfiets<br>
-      <input type="radio" name="zone" value="63316" id="633616" onclick="zoneClick(this.value)">Touringcar > 2020
+            <div style="margin: 0 auto; width:180px; text-align:left;">
+            <input type="radio" name="zone" value="63363" id="00000" onclick="zoneClick(undefined)">Leeg<br>
+            <input type="radio" name="zone" value="63363" id="63363" onclick="zoneClick(this.value)">Bestel<br>
+            <input type="radio" name="zone" value="63362" id="63362" onclick="zoneClick(this.value)">Vracht<br>
+            <input type="radio" name="zone" value="63361" id="63361" onclick="zoneClick(this.value)">Touringcar<br>
+            <input type="radio" name="zone" value="63360" id="63360" onclick="zoneClick(this.value)">Taxi<br>
+            <input type="radio" name="zone" value="63324" id="63324" onclick="zoneClick(this.value)">Brom-en snorfiets<br>
+            <input type="radio" name="zone" value="63316" id="633616" onclick="zoneClick(this.value)">Touringcar > 2020
+            </div>
           </td>
           <td align="center">
-            <input type="checkbox" name="oplaadpalen" value="oplaadpalen" onclick="oplaadpalenClick(this.checked)">
-            Toon oplaadpalen
+             <div style="margin: 0 auto; width:180px; text-align:left;">
+             <input type="radio" name="laadpalen" value="0" id="l0" onclick="oplaadpalenClick(undefined)">Leeg<br>
+             <input type="radio" name="laadpalen" value="0" id="l1" onclick="oplaadpalenClick(this.value)">Alle laadpalen<br>
+             <input type="radio" name="laadpalen" value="22" id="l2" onclick="oplaadpalenClick(this.value)">Snellaadpalen<br>
+             </div>
+          </td>
+          <td align="center">
+            <div style="margin: 0 auto; width:180px; text-align:left;">
+            <input type="radio" name="hoofdroutes" value="geen" id="h0" onclick="hoofroutesClick(undefined)">Leeg<br>
+            <input type="radio" name="hoofdroutes" value="vrachtroutes" id="h1" onclick="hoofroutesClick(this.value)">Vrachtroutes<br>
+            <input type="radio" name="hoofdroutes" value="taxiroutes" id="h2" onclick="hoofroutesClick(this.value)">Taxiroutes<br>
+            <input type="radio" name="hoofdroutes" value="busbaan_geen_taxi" id="h3" onclick="hoofroutesClick(this.value)">Busbaan geen taxi<br>
+            <input type="radio" name="hoofdroutes" value="vrachtroutes,taxiroutes,busbaan_geen_taxi" id="h4" onclick="hoofroutesClick(this.value)">Alle<br>
+            </div>
+          </td>
+          <td align="center">
+            <div style="margin: 0 auto; width:180px; text-align:left;">
+            <input type="radio" name="parkeervakken" value="geen" id="p0" onclick="parkeervakkenClick(undefined)">Leeg<br>
+            <input type="radio" name="parkeervakken" value="taxistandplaats" id="p1" onclick="parkeervakkenClick(this.value)">Taxistandplaats<br>
+            <input type="radio" name="parkeervakken" value="laden_lossen" id="p2" onclick="parkeervakkenClick(this.value)">Laden & lossen<br>
+            <input type="radio" name="parkeervakken" value="park_ride" id="p3" onclick="parkeervakkenClick(this.value)">Park & Ride<br>
+            <input type="radio" name="parkeervakken" value="taxistandplaats,laden_lossen,park_ride" id="p4" onclick="parkeervakkenClick(this.value)">Alle drie<br>
+            </div>
+          </td>
+          <td align="center">
+            <div style="margin: 0 auto; width:180px; text-align:left;">
+            <input type="radio" name="reistijden" value="geen" id="r0" onclick="reistijdenClick(undefined)">Leeg<br>
+            <input type="radio" name="reistijden" value="reistijden" id="r1" onclick="reistijdenClick(this.value)">Reistijden<br>
+            </div>
+          </td>
 
-          </td>
-          <td align="center">
-            <input type="checkbox" name="hoofdroutes" value="hoofdroutes" onclick="hoofroutesClick(this.checked)">
-            Toon hoofdroutes
-          </td>
       </tr></table>
     </div>
+    <div id="mapdiv"></div>
     <div id="queryresults"></div>
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script src="dist/polyfill.min.js"></script>
     <script src="dist/amaps.iife.js"></script>
     <script>
       var map
-      var curLayer
-      var curLayerValue
+      var zoneLayer
+      var zoneLayerValue
       var oplaadpalenLayer
+      var oplaadpalenLayerValue
       var hoofdroutesLayer
+      var hoofdroutesLayerValue
+      var parkeervakkenLayer
+      var parkeervakkenLayerValue
+      var reistijdenLayer
+      var reistijdenLayerValue
 
       map = amaps.createMap({target: 'mapdiv',
         layer: 'standaard',
@@ -61,55 +90,103 @@
       });
 
       function zoneClick(value) {
-          if (typeof curLayer !== "undefined") {
-              map.removeLayer(curLayer)
-              curLayer = undefined
-              curLayerValue = undefined
+          if (typeof zoneLayer !== "undefined") {
+              if( typeof zoneLayer !== "undefined")
+                map.removeLayer(zoneLayer)
+              zoneLayer = undefined
+              zoneLayerValue = undefined
           }
-          if( typeof value !== "undefined" && value !== curLayerValue) {
-              curLayerValue = value
+          if( typeof value !== "undefined" && value !== zoneLayerValue) {
+              zoneLayerValue = value
               const endpoint = {
                   url: 'https://map.data.amsterdam.nl/maps/milieuzones?id=' + value,
                   layerName: ['milieuzones'],
                   styleName: ''
               };
-              curLayer = amaps.leaflet.overlayLayer('milieuzones', endpoint);
-              map.addLayer(curLayer);
+              zoneLayer = amaps.leaflet.overlayLayer('milieuzones', endpoint);
+              map.addLayer(zoneLayer);
           }
       }
 
-      function oplaadpalenClick(checked) {
-          if (checked === false && typeof oplaadpalenLayer !== "undefined") {
-              map.removeLayer(oplaadpalenLayer)
-              oplaadpalenLayer = undefined
-          } else if (checked === true) {
-              const endpoint = {
-                  url: 'https://map.data.amsterdam.nl/maps/oplaadpalen',
-                  layerName: ['oplaadpalen'],
-                  styleName: ''
-              };
-              oplaadpalenLayer = amaps.leaflet.overlayLayer('oplaadpalen', endpoint);
-              map.addLayer(oplaadpalenLayer);
-          }
+      function oplaadpalenClick(value) {
+        if (typeof value === "undefined" || oplaadpalenLayerValue !== value) {
+          if( typeof oplaadpalenLayer !== "undefined")
+            map.removeLayer(oplaadpalenLayer)
+          oplaadpalenLayer = undefined
+          oplaadpalenLayerValue = undefined
+        }
+        if (typeof value !== "undefined" && value !== oplaadpalenLayerValue) {
+          oplaadpalenLayerValue = value
+          const endpoint = {
+            url: 'https://map.data.amsterdam.nl/maps/oplaadpalen?charging_cap_min=' + value,
+            layerName: ['oplaadpalen'],
+            styleName: ''
+          };
+          oplaadpalenLayer = amaps.leaflet.overlayLayer('oplaadpalen', endpoint);
+          map.addLayer(oplaadpalenLayer);
+        }
       }
 
-      function hoofroutesClick(checked) {
-          if (checked === false && typeof hoofdroutesLayer !== "undefined") {
-              map.removeLayer(hoofdroutesLayer)
-              hoofdroutesLayer = undefined
-          } else if (checked === true) {
-              const endpoint = {
-                  url: 'https://map.data.amsterdam.nl/maps/hoofdroutes',
-                  layerName: ['hoofdroutes'],
-                  styleName: ''
-              };
-              hoofdroutesLayer = amaps.leaflet.overlayLayer('hoofdroetes', endpoint);
-              map.addLayer(hoofdroutesLayer);
-          }
+      function hoofroutesClick(value) {
+        if (typeof value === "undefined" || hoofdroutesLayerValue !== value) {
+          if( typeof hoofdroutesLayer !== "undefined")
+            map.removeLayer(hoofdroutesLayer)
+          hoofdroutesLayer = undefined
+          hoofdroutesLayerValue = undefined
+        }
+        if (typeof value !== "undefined" && value !== hoofdroutesLayerValue) {
+          layers = value.split(',')
+          hoofdroutesLayerValue = value
+          const endpoint = {
+            url: 'https://map.data.amsterdam.nl/maps/hoofdroutes',
+            layerName: layers,
+            styleName: ''
+          };
+          hoofdroutesLayer = amaps.leaflet.overlayLayer('oplaadpalen', endpoint);
+          map.addLayer(hoofdroutesLayer);
+        }
       }
 
-      document.getElementById("63363").checked = "true"
-      zoneClick(63316)
+      function parkeervakkenClick(value) {
+        if (typeof value === "undefined" || parkeervakkenLayerValue !== value) {
+          if( typeof parkeervakkenLayer !== "undefined")
+            map.removeLayer(parkeervakkenLayer)
+          parkeervakkenLayer = undefined
+          parkeervakkenLayerValue = undefined
+        }
+        if (typeof value !== "undefined" && value !== parkeervakkenLayerValue) {
+          parkeervakkenLayerValue = value
+          const endpoint = {
+            url: 'https://map.data.amsterdam.nl/maps/parkeervakken?categorie=' + value,
+            layerName: 'parkeervakken_reservering',
+            styleName: ''
+          };
+          parkeervakkenLayer = amaps.leaflet.overlayLayer('parkeervakken', endpoint);
+          map.addLayer(parkeervakkenLayer);
+        }
+      }
+
+      function reistijdenClick(value) {
+        if (typeof value === "undefined" || reistijdenLayerValue !== value) {
+          if( typeof reistijdenLayer !== "undefined")
+            map.removeLayer(reistijdenLayer)
+          reistijdenLayer = undefined
+          reistijdenLayerValue = undefined
+        }
+        if (typeof value !== "undefined" && value !== reistijdenLayerValue) {
+          reistijdenLayerValue = value
+          const endpoint = {
+            url: 'https://map.data.amsterdam.nl/maps/reistijdenauto?',
+            layerName: 'reistijdenauto',
+            styleName: ''
+          };
+          reistijdenLayer = amaps.leaflet.overlayLayer('reistijden', endpoint);
+          map.addLayer(reistijdenLayer);
+        }
+      }
+
+      // document.getElementById("63363").checked = "true"
+      // zoneClick(63316)
     </script>
   </body>
 </html>
