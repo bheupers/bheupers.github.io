@@ -13,7 +13,7 @@
   </head>
   <body>
     <div id="controlpanel">
-      <table width="100%" cellpadding="10"><tr><th>Milieuzones</th><th>Oplaadpalen</th><th>Hoofdroutes</th><th>Parkeervakken</th><th>Reistijden auto</th></tr>
+      <table width="100%" cellpadding="10"><tr><th>Milieuzones</th><th>Oplaadpunten</th><th>Hoofdroutes</th><th>Parkeervakken</th><th>Reistijden auto</th></tr>
         <tr>
           <td align="center">
             <div style="margin: 0 auto; width:180px; text-align:left;">
@@ -28,9 +28,9 @@
           </td>
           <td align="center">
              <div style="margin: 0 auto; width:180px; text-align:left;">
-             <input type="radio" name="laadpalen" value="0" id="l0" onclick="oplaadpalenClick(undefined)">Leeg<br>
-             <input type="radio" name="laadpalen" value="0" id="l1" onclick="oplaadpalenClick(this.value)">Alle laadpalen<br>
-             <input type="radio" name="laadpalen" value="22" id="l2" onclick="oplaadpalenClick(this.value)">Snellaadpalen<br>
+             <input type="radio" name="laadpalen" value="0" id="l0" onclick="oplaadpuntenClick(undefined)">Leeg<br>
+             <input type="radio" name="laadpalen" value="all" id="l1" onclick="oplaadpuntenClick(this.value)">Alle laadpalen<br>
+             <input type="radio" name="laadpalen" value="snel" id="l2" onclick="oplaadpuntenClick(this.value)">Snellaadpalen<br>
              </div>
           </td>
           <td align="center">
@@ -69,8 +69,8 @@
       var map
       var zoneLayer
       var zoneLayerValue
-      var oplaadpalenLayer
-      var oplaadpalenLayerValue
+      var oplaadpuntenLayer
+      var oplaadpuntenLayerValue
       var hoofdroutesLayer
       var hoofdroutesLayerValue
       var parkeervakkenLayer
@@ -108,22 +108,27 @@
           }
       }
 
-      function oplaadpalenClick(value) {
-        if (typeof value === "undefined" || oplaadpalenLayerValue !== value) {
-          if( typeof oplaadpalenLayer !== "undefined")
-            map.removeLayer(oplaadpalenLayer)
-          oplaadpalenLayer = undefined
-          oplaadpalenLayerValue = undefined
+      function oplaadpuntenClick(value) {
+        if (typeof value === "undefined" || oplaadpuntenLayerValue !== value) {
+          if( typeof oplaadpuntenLayer !== "undefined")
+            map.removeLayer(oplaadpuntenLayer)
+          oplaadpuntenLayer = undefined
+          oplaadpuntenLayerValue = undefined
         }
-        if (typeof value !== "undefined" && value !== oplaadpalenLayerValue) {
-          oplaadpalenLayerValue = value
-          const endpoint = {
-            url: 'https://map.data.amsterdam.nl/maps/oplaadpalen?charging_cap_min=' + value,
-            layerName: ['oplaadpalen'],
+        if (typeof value !== "undefined" && value !== oplaadpuntenLayerValue) {
+          oplaadpuntenLayerValue = value
+          if (value === 'snel') {
+            layers = ['snel_beschikbaar', 'snel_niet_beschikbaar']
+          } else {
+            layers = ['normaal_beschikbaar', 'normaal_niet_beschikbaar', 'snel_beschikbaar', 'snel_niet_beschikbaar']
+          }
+           const endpoint = {
+            url: 'https://map.data.amsterdam.nl/maps/oplaadpunten',
+            layerName: layers,
             styleName: ''
           };
-          oplaadpalenLayer = amaps.leaflet.overlayLayer('oplaadpalen', endpoint);
-          map.addLayer(oplaadpalenLayer);
+          oplaadpuntenLayer = amaps.leaflet.overlayLayer('oplaadpunten', endpoint);
+          map.addLayer(oplaadpuntenLayer);
         }
       }
 
@@ -142,7 +147,7 @@
             layerName: layers,
             styleName: ''
           };
-          hoofdroutesLayer = amaps.leaflet.overlayLayer('oplaadpalen', endpoint);
+          hoofdroutesLayer = amaps.leaflet.overlayLayer('oplaadpunten', endpoint);
           map.addLayer(hoofdroutesLayer);
         }
       }
